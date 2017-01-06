@@ -12,7 +12,7 @@ const styles = require('ansi-styles');
 const escape = require('./escape');
 
 /**
- * Get current outer shell from adapter
+ * Get current parent shell from adapter
  */
 const shell = process.argv[3];
 
