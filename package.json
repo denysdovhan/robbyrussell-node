@@ -1,7 +1,7 @@
 {
   "name": "robbyrussell",
   "version": "0.0.0",
-  "description": "Robby Russell's zsh-theme written in JavaScript",
+  "description": "Robby Russell's theme written in JavaScript",
   "main": "index.js",
   "repository": "git@github.com:denysdovhan/robbyrussell.git",
   "author": "Denys Dovhan <email@denysdovhan.com>",
