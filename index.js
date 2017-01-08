@@ -71,7 +71,7 @@ function gitRepo(cwd) {
     gitStatus.push(`${BLUE})`);
 
     if (git.dirtySync(cwd)) {
-      gitStatus.push(`${YELLOW} ✗`);
+      gitStatus.push(`${YELLOW} ✗ `);
     }
   }
 
@@ -83,9 +83,9 @@ function gitRepo(cwd) {
  * @return {String}
  */
 function prompt() {
-  const code = process.argv[2];
+  const code = Number(process.argv[2]);
   const cwd  = process.cwd();
-  return `${BOLD}${status(code)} ${directory(cwd)} ${gitRepo(cwd)} ${RESET}`
+  return `${BOLD}${status(code)} ${directory(cwd)} ${gitRepo(cwd)}${RESET}`
 }
 
 /**
