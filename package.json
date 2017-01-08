@@ -7,7 +7,7 @@
   "author": "Denys Dovhan <email@denysdovhan.com>",
   "license": "MIT",
   "dependencies": {
-    "ansi-styles": "^2.2.1",
+    "chalk": "^1.1.3",
     "git-state": "^3.1.0"
   }
 }

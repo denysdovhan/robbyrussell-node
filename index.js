@@ -8,7 +8,7 @@
 
 const path   = require('path');
 const git    = require('git-state');
-const styles = require('ansi-styles');
+const styles = require('chalk').styles;
 const escape = require('./escape');
 
 /**
