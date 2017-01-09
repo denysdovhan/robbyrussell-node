@@ -54,7 +54,7 @@ function status(exitCode) {
  */
 function directory(cwd) {
   const dir = path.basename(cwd);
-  return `${CYAN}${dir}`;
+  return ` ${CYAN}${dir}`;
 }
 
 /**
@@ -66,12 +66,13 @@ function gitRepo(cwd) {
   let gitStatus = [];
 
   if (git.isGitSync(cwd)) {
+    gitStatus.push(' '); // space before
     gitStatus.push(`${BLUE}git:(`);
     gitStatus.push(`${RED}${git.branchSync()}`);
     gitStatus.push(`${BLUE})`);
 
     if (git.dirtySync(cwd)) {
-      gitStatus.push(`${YELLOW} ✗ `);
+      gitStatus.push(`${YELLOW} ✗`);
     }
   }
 
@@ -85,7 +86,7 @@ function gitRepo(cwd) {
 function prompt() {
   const code = Number(process.argv[2]);
   const cwd  = process.cwd();
-  return `${BOLD}${status(code)} ${directory(cwd)} ${gitRepo(cwd)}${RESET}`
+  return `${BOLD}${status(code)}${directory(cwd)}${gitRepo(cwd)}${RESET} `
 }
 
 /**
