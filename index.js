@@ -83,14 +83,13 @@ function gitRepo(cwd) {
  * Compose whole promptk
  * @return {String}
  */
-function prompt() {
-  const code = Number(process.argv[2]);
-  const cwd  = process.cwd();
+function prompt(code, cwd) {
   return `${BOLD}${status(code)}${directory(cwd)}${gitRepo(cwd)}${RESET} `
 }
 
-/**
- * Write prompt to stdout and exit with zero-code
- */
-process.stdout.write(prompt());
-process.exit(0);
+module.exports = {
+  status,
+  directory,
+  gitRepo,
+  prompt,
+};

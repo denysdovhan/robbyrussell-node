@@ -4,7 +4,7 @@ set robbyrussell_root (cd (dirname (status -f)); and pwd)
 # FISH-specific adapter
 function robbyrussell_fish_atapter -d "a robbyrussell theme adapter for fish"
   set robbyrussell_previous_exit_code "$status"
-  node $robbyrussell_root/index.js $robbyrussell_previous_exit_code 'fish'
+  node $robbyrussell_root/robbyrussell $robbyrussell_previous_exit_code 'fish'
 end
 
 # set prompt

@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+const robbyrussell = require('.').prompt;
+
+const code = Number(process.argv[2]);
+const cwd = process.cwd();
+
+
+/**
+ * Write prompt to stdout and exit with zero-code
+ */
+process.stdout.write(robbyrussell(code, cwd));
+process.exit(0);
