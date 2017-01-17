@@ -63,7 +63,7 @@ function directory(cwd) {
  * @return {String}     Fromated string with git status
  */
 function gitRepo(cwd) {
-  let gitStatus = [];
+  const gitStatus = [];
 
   if (git.isGitSync(cwd)) {
     gitStatus.push(' '); // space before
