@@ -1,4 +1,6 @@
 language: node_js
+before_script:
+  - git status
 node_js:
   - "node"
   - 6
