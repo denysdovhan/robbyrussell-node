@@ -71,7 +71,7 @@ function gitRepo(cwd) {
     gitStatus.push(`${RED}${git.branchSync()}`);
     gitStatus.push(`${BLUE})`);
 
-    if (git.dirtySync(cwd)) {
+    if (git.dirtySync(cwd) || git.untrackedSync(cwd)) {
       gitStatus.push(`${YELLOW} ✗`);
     }
   }
