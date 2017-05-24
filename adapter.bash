@@ -4,7 +4,7 @@ robbyrussell_root=$(cd $(dirname "$0") && pwd)
 # BASH-specific adapter
 robbyrussell_bash_atapter() {
   robbyrussell_previous_exit_code="$?"
-  node $robbyrussell_root/robbyrussell $robbyrussell_previous_exit_code 'bash'
+  robbyrussell $robbyrussell_previous_exit_code 'bash'
 }
 
 # set prompt

@@ -6,6 +6,9 @@
   "repository": "git@github.com:denysdovhan/robbyrussell.git",
   "author": "Denys Dovhan <email@denysdovhan.com>",
   "license": "MIT",
+  "bin": {
+    "robbyrussell": "./robbyrussell"
+  },
   "scripts": {
     "install": "./install.js",
     "uninstall": "./uninstall.js",
