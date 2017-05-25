@@ -63,17 +63,17 @@ test('git', (t) => {
     dirtyChar: 'x',
   };
 
-  t.plan(4);
+  if (!gitUtils.dirtySync(__dirname) && !gitUtils.untrackedSync(__dirname)) {
+    const clean = robbyrussell.gitRepo({ cwd: __dirname, git });
+    console.log('clean:', clean);
 
-  const clean = robbyrussell.gitRepo({ cwd: __dirname, git });
-  console.log('clean:', clean);
-
-  t.true(hasAnsi(clean), 'clean should contain ANSI');
-  t.equal(
-    clean,
-    ` ${git.indicator}git:(${git.branch}${branch}${git.indicator})`,
-    'should be clean'
-  );
+    t.true(hasAnsi(clean), 'clean should contain ANSI');
+    t.equal(
+      clean,
+      ` ${git.indicator}git:(${git.branch}${branch}${git.indicator})`,
+      'should be clean'
+    );
+  }
 
   // Make repo dirty
   exec(`touch ${tmpFile}`);
@@ -89,6 +89,8 @@ test('git', (t) => {
 
   // Clean repo
   exec(`rm ${tmpFile}`);
+
+  t.end();
 });
 
 /**
