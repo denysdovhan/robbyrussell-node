@@ -16,7 +16,8 @@
     "postinstall": "./install.js",
     "postuninstall": "./uninstall.js",
     "build": "pkg . --out-dir=build",
-    "test": "tape tests.js | tap-spec"
+    "test": "tape tests.js | tap-spec",
+    "postpublish": "git push --follow-tags"
   },
   "dependencies": {
     "chalk": "^1.1.3",
