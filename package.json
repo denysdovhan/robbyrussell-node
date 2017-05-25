@@ -9,6 +9,9 @@
   "bin": {
     "robbyrussell": "./robbyrussell"
   },
+  "engines": {
+    "node": ">=7.6.0"
+  },
   "scripts": {
     "install": "./install.js",
     "uninstall": "./uninstall.js",
