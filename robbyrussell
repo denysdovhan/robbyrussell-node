@@ -1,13 +1,22 @@
 #!/usr/bin/env node
 
-const robbyrussell = require('.').prompt;
+const robbyrussell = require('.');
+const deepAssign = require('deep-assign');
+const defaultConfig = require('./config');
+const { loadConfig, processPrint } = require('./utils/common');
 
-const code = Number(process.argv[2]);
-const cwd = process.cwd();
+const configPath = `${process.env.HONE}/.prompt-config.js`
 
+const config = deepAssign({}, defaultConfig, loadConfig(configPath), {
+  code: Number(process.argv[2]),
+  cwd: process.cwd(),
+})
 
-/**
- * Write prompt to stdout and exit with zero-code
- */
-process.stdout.write(robbyrussell(code, cwd));
-process.exit(0);
+if (config.async) {
+  robbyrussell.promptAsync(config)
+    .then(output => processPrint(output))
+    .catch(reason => processPrint(reason));
+} else {
+  const output = robbyrussell.prompt(config);
+  processPrint(output);
+}

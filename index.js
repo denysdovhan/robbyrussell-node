@@ -1,5 +1,5 @@
 /**
- * Robby Russell's theme written in JavaScript
+ * Cross-shell robbyrussell theme written in JavaScript
  *
  * @author: Denys Dovhan, denysdovhan.com
  * @license: MIT
@@ -7,89 +7,103 @@
  */
 
 const path   = require('path');
-const git    = require('git-state');
-const styles = require('chalk').styles;
-const escape = require('./escape');
+const colors = require('./utils/colors');
+const git    = require('./utils/git');
 
 /**
- * Get current parent shell from adapter
+ * Paint arrow in success or failure colors depending on
+ * status code of the last executed command
+ * @param  {object} config Configuration of prompt
+ * @return {string}        Propmpt character with color
  */
-const shell = process.argv[3];
-
-/**
- * Bind escape to the shell
- * We need that to escape non-printable characters properly
- * @see: ./escape.js
- */
-const e = escape.bind(null, shell);
-
-/**
- * Decorate ANSI-colors with shell-specific escapes
- */
-
-// Styles
-const BOLD   = e(styles.bold.open);
-const RESET  = e(styles.reset.close);
-// Colors
-const GREEN  = e(styles.green.open);
-const RED    = e(styles.red.open);
-const CYAN   = e(styles.cyan.open);
-const BLUE   = e(styles.blue.open);
-const YELLOW = e(styles.yellow.open);
-
-/**
- * Paint arrow in green and red depending on status code of
- * the last executed command
- * @param  {Number} exitCode Exit code of previous command
- * @return {String}          Propmpt character with color
- */
-function status(exitCode) {
-  return `${exitCode === 0 ? GREEN : RED}➜ `;
+function status(config) {
+  const { char, success, failure } = config.status;
+  return `${config.code === 0 ? success : failure}${char} `;
 }
 
 /**
  * Current working directory
- * @param  {String} cwd Full path to the current working directory
- * @return {String}     Formated string with current folder
+ * @param  {object} config Configuration of prompt
+ * @return {string}        Formated string with current folder
  */
-function directory(cwd) {
-  const dir = path.basename(cwd);
-  return ` ${CYAN}${dir}`;
+function directory(config) {
+  const { color } = config.dir;
+  const dir = path.basename(config.cwd);
+  return `${color}${dir}`;
 }
 
 /**
+ * Synchronous method
  * Get current branch and check if repo is dirty
- * @param  {String} cwd Full path to the current working directory
- * @return {String}     Fromated string with git status
+ * @param  {object} config Configuration of prompt
+ * @return {string}        Fromated string with git status
  */
-function gitRepo(cwd) {
-  const gitStatus = [];
+function gitRepo(config) {
+  const { indicator, branch, dirty, dirtyChar } = config.git;
 
-  if (git.isGitSync(cwd)) {
-    gitStatus.push(' '); // space before
-    gitStatus.push(`${BLUE}git:(`);
-    gitStatus.push(`${RED}${git.branchSync()}`);
-    gitStatus.push(`${BLUE})`);
+  let gitStatus = '';
 
-    if (git.dirtySync(cwd) || git.untrackedSync(cwd)) {
-      gitStatus.push(`${YELLOW} ✗`);
+  if (git.isGitSync(config.cwd)) {
+    gitStatus += ` ${indicator}git:(${branch}${git.branchSync()}${indicator})`;
+
+    if (git.dirtySync(config.cwd) || git.untrackedSync(config.cwd)) {
+      gitStatus += `${dirty} ${dirtyChar}`;
     }
   }
 
-  return gitStatus.join('');
+  return gitStatus;
 }
 
 /**
- * Compose whole promptk
- * @return {String}
+ * Asynchronous method
+ * Get current branch and check if repo is dirty
+ * @param {object} config Configuration of prompt
+ * @return {string}       Formated string with git status
  */
-function prompt(code, cwd) {
-  return `${BOLD}${status(code)}${directory(cwd)}${gitRepo(cwd)}${RESET} `
+async function gitRepoAsync(config) {
+  const { indicator, branch, dirty, dirtyChar } = config.git;
+
+  let gitStatus = '';
+
+  if (await git.isGit(config.cwd)) {
+    gitStatus += ` ${indicator}git:(${branch}${await git.branch()}${indicator})`;
+
+    if (await git.dirty(config.cwd) || await git.untracked(config.cwd)) {
+      gitStatus += `${dirty} ${dirtyChar}`;
+    }
+  }
+
+  return gitStatus;
 }
 
+/**
+ * Compose whole prompt
+ * @param {object} config Configuration of prompt
+ * @return {string}
+ */
+function prompt(config) {
+  const { open, close } = config.prompt;
+  return `${open}${status(config)}${directory(config)}${gitRepo(config)}${close} `;
+}
+
+/**
+ * Compose whole prompt
+ * @param {object} config Configuration of prompt
+ * @return {string}
+ */
+async function promptAsync(config) {
+  const { open, close } = config.prompt;
+  return `${open}${status(config)}${directory(config)}${await gitRepo(config)}${close} `;
+}
+
+/**
+ * Export all parts for prompt
+ */
 module.exports = {
   status,
   directory,
   gitRepo,
+  gitRepoAsync,
   prompt,
+  promptAsync,
 };
