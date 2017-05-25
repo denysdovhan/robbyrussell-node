@@ -13,8 +13,9 @@
     "node": ">=7.6.0"
   },
   "scripts": {
-    "install": "./install.js",
-    "uninstall": "./uninstall.js",
+    "postinstall": "./install.js",
+    "postuninstall": "./uninstall.js",
+    "build": "pkg . --out-dir=build",
     "test": "tape tests.js | tap-spec"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
   "devDependencies": {
     "eslint": "^3.19.0",
     "has-ansi": "^2.0.0",
+    "pkg": "^3.0.5",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.3"
   }
