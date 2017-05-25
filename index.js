@@ -29,7 +29,7 @@ function status(config) {
 function directory(config) {
   const { color } = config.dir;
   const dir = path.basename(config.cwd);
-  return `${color}${dir}`;
+  return `${color}${dir === process.env.USER ? '~' : dir}`;
 }
 
 /**
