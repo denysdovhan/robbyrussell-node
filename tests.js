@@ -1,78 +1,89 @@
 const test = require('tape');
 const exec = require('child_process').execSync;
 const hasAnsi = require('has-ansi');
-const git = require('git-state');
-const styles = require('chalk').styles;
-const robbyrussell = require('./');
-
-// Styles
-const BOLD   = styles.bold.open;
-const RESET  = styles.reset.close;
-// Colors
-const GREEN  = styles.green.open;
-const RED    = styles.red.open;
-const CYAN   = styles.cyan.open;
-const BLUE   = styles.blue.open;
-const YELLOW = styles.yellow.open;
+const gitUtils = require('./utils/git');
+const robbyrussell = require('.');
+const colors = require('./utils/colors');
 
 /**
  * Status tests
  */
 test('status', (t) => {
-  const good = robbyrussell.status(0);
-  const bad  = robbyrussell.status(1);
+  const status = {
+    char: '->',
+    success: colors.green.open,
+    failure: colors.red.open,
+  }
+
+  const good = robbyrussell.status({ code: 0, status });
+  const bad  = robbyrussell.status({ code: 1, status });
 
   t.plan(4);
 
   console.log('good:', good);
   t.true(hasAnsi(good), 'should contain ANSI');
-  t.equal(good, `${GREEN}➜ `, 'should write character');
+  t.equal(good, `${status.success}${status.char} `, 'should write character');
 
   console.log('bad:', bad);
   t.true(hasAnsi(bad), 'should contain ANSI');
-  t.equal(bad, `${RED}➜ `, 'should write character');
+  t.equal(bad, `${status.failure}${status.char} `, 'should write character');
 });
 
 /**
  * Directory case
  */
 test('directory', (t) => {
-  const dir = robbyrussell.directory('/path/to/dir');
+  const dir = {
+    color: colors.cyan.open,
+  };
 
-  t.plan(2);
+  const directory = robbyrussell.directory({ cwd: '/path/to/dir', dir });
+  const home = robbyrussell.directory({ cwd: `/home/${process.env.USER}`, dir });
 
-  console.log('directory:', dir);
-  t.true(hasAnsi(dir), 'should contain ANSI')
-  t.equal(dir, ` ${CYAN}dir`, 'should write only directory name');
+  t.plan(3);
+
+  console.log('directory:', directory);
+  t.true(hasAnsi(directory), 'should contain ANSI')
+  t.equal(directory, `${dir.color}dir`, 'should write only directory name');
+  console.log('at home:', home);
+  t.equal(home, `${dir.color}~`, 'should write ~ when in home');
 });
 
 /**
- * Git repo status
+ * Git repo status. Sync.
  */
-test('git repo', (t) => {
-  const branch = git.branchSync(__dirname);
+test('git', (t) => {
+  const branch = gitUtils.branchSync(__dirname);
   const tmpFile = `test-${(new Date()).valueOf()}.tmp`;
+
+  const git = {
+    indicator: colors.blue.open,
+    branch: colors.red.open,
+    dirty: colors.yellow.open,
+    dirtyChar: 'x',
+  };
 
   t.plan(4);
 
-  const clean = robbyrussell.gitRepo(__dirname);
+  const clean = robbyrussell.gitRepo({ cwd: __dirname, git });
   console.log('clean:', clean);
+
   t.true(hasAnsi(clean), 'clean should contain ANSI');
   t.equal(
     clean,
-    ` ${BLUE}git:(${RED}${branch}${BLUE})`,
+    ` ${git.indicator}git:(${git.branch}${branch}${git.indicator})`,
     'should be clean'
   );
 
   // Make repo dirty
   exec(`touch ${tmpFile}`);
 
-  const dirty = robbyrussell.gitRepo(__dirname);
+  const dirty = robbyrussell.gitRepo({ cwd: __dirname, git });
   console.log('dirty:', dirty);
-  t.true(hasAnsi(clean), 'dirty should contain ANSI');
+  t.true(hasAnsi(dirty), 'dirty should contain ANSI');
   t.equal(
     dirty,
-    ` ${BLUE}git:(${RED}${branch}${BLUE})${YELLOW} ✗`,
+    ` ${git.indicator}git:(${git.branch}${branch}${git.indicator})${git.dirty} ${git.dirtyChar}`,
     'should be dirty'
   );
 
@@ -84,10 +95,33 @@ test('git repo', (t) => {
  * Whole composed prompt
  */
 test('prompt', (t) => {
-  const prompt = robbyrussell.prompt(0, __dirname);
-  const status = robbyrussell.status(0);
-  const directory =robbyrussell.directory(__dirname);
-  const gitRepo = robbyrussell.gitRepo(__dirname);
+  const config = {
+    cwd: 'path/to/dir',
+    code: 0,
+    prompt: {
+      open: colors.bold.open,
+      close: colors.bold.close + colors.reset.close
+    },
+    status: {
+      char: '➜',
+      success: colors.green.open,
+      failure: colors.red.open,
+    },
+    dir: {
+      color: colors.cyan.open
+    },
+    git: {
+      indicator: colors.blue.open,
+      branch: colors.red.open,
+      dirty: colors.yellow.open,
+      dirtyChar: '✗'
+    },
+  }
+
+  const prompt = robbyrussell.prompt(config);
+  const status = robbyrussell.status(config);
+  const directory =robbyrussell.directory(config);
+  const gitRepo = robbyrussell.gitRepo(config);
 
   t.plan(2);
 
@@ -95,7 +129,7 @@ test('prompt', (t) => {
   t.true(hasAnsi(prompt), 'contains ANSI');
   t.equal(
     prompt,
-    `${BOLD}${status}${directory}${gitRepo}${RESET} `,
+    `${colors.bold.open}${status}${directory}${gitRepo}${colors.bold.close + colors.reset.close} `,
     'should use function'
   );
 });
