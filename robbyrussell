@@ -5,7 +5,7 @@ const deepAssign = require('deep-assign');
 const defaultConfig = require('./config');
 const { loadConfig, processPrint } = require('./utils/common');
 
-const configPath = `${process.env.HONE}/.prompt-config.js`
+const configPath = `${process.env.HOME}/.prompt-config.js`
 
 const config = deepAssign({}, defaultConfig, loadConfig(configPath), {
   code: Number(process.argv[2]),
