@@ -31,7 +31,7 @@ Why JavaScript? Just because it's a high-level language which provides wide infr
 ### [npm](https://www.npmjs.com)
 
 ```
-npm istall -g robbyrussell
+npm install -g robbyrussell
 ```
 
 Done. This command should source the corresponding adapter for your shell. Just reload your terminal.
