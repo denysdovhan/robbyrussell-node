@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "description": "Robby Russell's theme written in JavaScript",
   "main": "index.js",
-  "repository": "git@github.com:denysdovhan/robbyrussell.git",
+  "repository": "git@github.com:denysdovhan/robbyrussell-node.git",
   "author": "Denys Dovhan <email@denysdovhan.com>",
   "license": "MIT",
   "bin": {

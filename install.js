@@ -32,6 +32,6 @@ try {
 } catch (e) {
   error('Something went wrong!');
   error('Don\'t panic! Report an issue to:');
-  error('\n\thttps://github.com/denysdovhan/robbyrussell/issues/new');
+  error('\n\thttps://github.com/denysdovhan/robbyrussell-node/issues/new');
   throw e;
 }

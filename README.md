@@ -1,6 +1,6 @@
 ![robbyrussell-img][robbyrussell-img]
 
-# robbyrussell
+# robbyrussell-node
 
 [![NPM version][npm-image]][npm-url]
 [![Node.js version][node-image]][node-url]
@@ -40,7 +40,7 @@ Done. This command should source the corresponding adapter for your shell. Just 
 
 If you don't have Node.js installed on your machine, you can download pre-built binaries with built-in Node.js version.
 
-[**⬇️ Download binary ⬇️**](https://github.com/denysdovhan/robbyrussell/releases)
+[**⬇️ Download binary ⬇️**](https://github.com/denysdovhan/robbyrussell-node/releases)
 
 Use them in your shell configuration with [adapters](https://github.com/denysdovhan/robbyrussell/tree/master/adapters).
 
@@ -152,11 +152,11 @@ MIT © [Denys Dovhan](https://denysdovhan.com)
 [node-url]: https://nodejs.org/en/download/
 [node-image]: https://img.shields.io/node/v/robbyrussell.svg?style=flat-square
 
-[depstat-url]: https://david-dm.org/denysdovhan/robbyrussell
-[depstat-image]: https://david-dm.org/denysdovhan/robbyrussell.svg?style=flat-square
+[depstat-url]: https://david-dm.org/denysdovhan/robbyrussell-node
+[depstat-image]: https://david-dm.org/denysdovhan/robbyrussell-node.svg?style=flat-square
 
-[buildstat-url]: https://travis-ci.org/denysdovhan/robbyrussell
-[buildstat-image]: https://img.shields.io/travis/denysdovhan/robbyrussell.svg?style=flat-square
+[buildstat-url]: https://travis-ci.org/denysdovhan/robbyrussell-node
+[buildstat-image]: https://img.shields.io/travis/denysdovhan/robbyrussell-node.svg?style=flat-square
 
 [donate-url]: https://www.liqpay.com/en/checkout/380951100392
 [donate-image]: https://img.shields.io/badge/support-donate-yellow.svg?style=flat-square

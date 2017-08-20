@@ -3,7 +3,7 @@
  *
  * @author: Denys Dovhan, denysdovhan.com
  * @license: MIT
- * @link: https://github.com/denysdovhan/robbyrussell
+ * @link: https://github.com/denysdovhan/robbyrussell-node
  */
 
 const path   = require('path');
