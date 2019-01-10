@@ -28,7 +28,7 @@
   "devDependencies": {
     "eslint": "^4.6.0",
     "has-ansi": "^3.0.0",
-    "pkg": "^4.0.0",
+    "pkg": "^4.3.6",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.3"
   }
