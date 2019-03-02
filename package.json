@@ -26,7 +26,7 @@
     "pify": "^2.3.0"
   },
   "devDependencies": {
-    "eslint": "^4.6.0",
+    "eslint": "^5.15.0",
     "has-ansi": "^3.0.0",
     "pkg": "^4.0.0",
     "tap-spec": "^4.1.1",
