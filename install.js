@@ -9,7 +9,7 @@ const configs = new Map([
   [ 'fish', `${process.env.HOME}/.config/fish/config.fish` ],
 ]);
 
-log('Ianstalling robbyrussell theme...');
+log('Installing robbyrussell theme...');
 
 const shell  = path.basename(process.env.SHELL);
 const cwd    = process.cwd();
